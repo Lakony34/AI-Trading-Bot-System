@@ -37,7 +37,11 @@ This project aims to build a fully automated trading bot powered by AI, focused 
 - Trade execution via MT5
 - Risk management system (SL, TP, position sizing)
 - Backtesting module (planned)
-- Performance tracking (planned)
+- Performance tracking (planned)7- Trend detection using SMA 20 / SMA 50
+- Entry signal generation based on moving average crossovers
+- RSI confirmation
+- Bollinger Bands market context detection
+- Filtered entry signals to reduce false trades
 
 ---
 
@@ -54,12 +58,23 @@ src/
 ---
 
 ## Strategy (Initial Version)
-The first version of the bot will be based on simple and reliable technical strategies:
-- Moving Average crossover (SMA 20 / SMA 50)
-- Trend-following logic
-- Clear BUY / SELL / HOLD signals
+The first version of the bot combines:
+- SMA 20 / SMA 50 crossover
+- RSI confirmation
+- Bollinger Bands context analysis
 
-This serves as a foundation before integrating more advanced AI models.
+Signal logic:
+- Bullish SMA crossover → potential BUY
+- Bearish SMA crossover → potential SELL
+- RSI helps validate momentum
+- Bollinger Bands help detect overbought / oversold price extension
+
+The system distinguishes between:
+- trend signals
+- entry signals
+- market context
+
+This provides a stronger and more realistic foundation before adding advanced execution logic or AI-based improvements.
 
 ---
 
