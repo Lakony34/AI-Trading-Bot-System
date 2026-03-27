@@ -3,8 +3,8 @@
 This project aims to build a fully automated trading bot powered by AI, focused on intraday trading with future scalping expansion.
 
 ## Trading Scope
-- Market: Crypto / CFD (depending on broker setup in MT5)
-- Instrument: BTCUSD
+- Market: Forex
+- Instrument: EURUSD
 - Timeframe: Intraday (scalping extension planned)
 - Broker: MetaTrader 5 (MT5)
 - Type: Signal generation + automated execution
@@ -73,7 +73,7 @@ This serves as a foundation before integrating more advanced AI models.
 
 ## Roadmap
 - [ ] MT5 connection
-- [ ] BTCUSD data retrieval module
+- [ ] EURUSD data retrieval module
 - [ ] Basic strategy implementation
 - [ ] Backtesting system
 - [ ] Trade execution automation
@@ -88,4 +88,4 @@ Project in development – building core trading infrastructure.
 ---
 
 ## Vision
-Build a scalable, automated, and profitable BTCUSD trading system combining algorithmic trading and artificial intelligence.
+Build a scalable, automated, and profitable EURUSD trading system combining algorithmic trading and artificial intelligence.
