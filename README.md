@@ -42,6 +42,8 @@ This project aims to build a fully automated trading bot powered by AI, focused 
 - Backtesting module (planned)
 - Performance tracking (planned)
 - Dynamic position sizing based on account risk percentage
+- SQLite database storage for executed trade history
+- Persistent trade logging for all executed orders
 
 ---
 
