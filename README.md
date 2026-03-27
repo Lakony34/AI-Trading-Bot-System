@@ -42,6 +42,8 @@ This project aims to build a fully automated trading bot powered by AI, focused 
 - RSI confirmation
 - Bollinger Bands market context detection
 - Filtered entry signals to reduce false trades
+- Basic execution decision layer to prevent duplicate trades
+- Open position check before any order action
 
 ---
 
@@ -77,6 +79,7 @@ The system distinguishes between:
 
 This provides a stronger and more realistic foundation before adding advanced execution logic or AI-based improvements.
 The bot evaluates signals only on closed candles in order to reduce noise and avoid taking trades based on unfinished market data.
+The bot includes a basic execution control layer that checks for existing open positions before validating a new trade action.
 
 ---
 

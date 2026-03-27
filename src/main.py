@@ -1,6 +1,7 @@
 import MetaTrader5 as mt5
 from data_loader import get_data
 from strategy import add_indicators, generate_trend_signals, generate_entry_signals
+from execution import evaluate_trade_action
 
 
 SYMBOL = "EURUSD"
@@ -54,12 +55,9 @@ def main():
         print(f"Trend signal: {closed_candle['trend_signal']}")
         print(f"Entry signal: {closed_candle['entry_signal']}")
 
-        if closed_candle["entry_signal"] == "BUY":
-            print("\nAction: BUY signal confirmed on closed candle.")
-        elif closed_candle["entry_signal"] == "SELL":
-            print("\nAction: SELL signal confirmed on closed candle.")
-        else:
-            print("\nAction: No confirmed trade signal on closed candle.")
+        action = evaluate_trade_action(SYMBOL, closed_candle["entry_signal"])
+
+        print(f"\nExecution decision: {action}")
 
     except Exception as e:
         print("Error:", e)
