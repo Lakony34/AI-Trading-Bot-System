@@ -44,6 +44,8 @@ This project aims to build a fully automated trading bot powered by AI, focused 
 - Dynamic position sizing based on account risk percentage
 - SQLite database storage for executed trade history
 - Persistent trade logging for all executed orders
+- Trade status synchronization between MT5 and the local SQLite database
+- Automatic trade closure updates with profit and outcome tracking
 
 ---
 
@@ -125,6 +127,7 @@ Current progress:
 - strategy signals implemented
 - closed-candle validation implemented
 - MT5 demo order execution tested successfully
+- synchronization of open and closed trades in SQLite
 
 ---
 

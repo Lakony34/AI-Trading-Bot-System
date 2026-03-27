@@ -3,7 +3,7 @@ from data_loader import get_data
 from strategy_base import add_indicators, generate_trend_signals, generate_entry_signals, calculate_trade_levels
 from execution import evaluate_trade_action, place_market_order
 from risk_manager import calculate_lot_size
-from trade_logger import initialize_database, log_trade
+from trade_logger import initialize_database, log_trade, sync_closed_trades
 
 SYMBOL = "EURUSD"
 TIMEFRAME = mt5.TIMEFRAME_M5
@@ -19,6 +19,7 @@ def connect_mt5():
     print(f"Connected to MT5 - version: {mt5.version()}")
 
 initialize_database()
+sync_closed_trades()
 
 def main():
     try:
