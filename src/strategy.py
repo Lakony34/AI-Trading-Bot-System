@@ -44,19 +44,36 @@ def generate_entry_signals(df: pd.DataFrame) -> pd.DataFrame:
     df["entry_signal"] = "NONE"
     df["bollinger_context"] = "NEUTRAL"
 
-    bullish_cross = (df["SMA20"] > df["SMA50"]) & (df["SMA20"].shift(1) <= df["SMA50"].shift(1))
-    bearish_cross = (df["SMA20"] < df["SMA50"]) & (df["SMA20"].shift(1) >= df["SMA50"].shift(1))
-
     df.loc[df["close"] > df["BB_UPPER"], "bollinger_context"] = "OVERBOUGHT"
     df.loc[df["close"] < df["BB_LOWER"], "bollinger_context"] = "OVERSOLD"
 
+    valid_data = (
+        df["SMA20"].notna() &
+        df["SMA50"].notna() &
+        df["RSI"].notna() &
+        df["BB_UPPER"].notna() &
+        df["BB_LOWER"].notna()
+    )
+
+    bullish_cross = (
+        (df["SMA20"] > df["SMA50"]) &
+        (df["SMA20"].shift(1) <= df["SMA50"].shift(1))
+    )
+
+    bearish_cross = (
+        (df["SMA20"] < df["SMA50"]) &
+        (df["SMA20"].shift(1) >= df["SMA50"].shift(1))
+    )
+
     buy_condition = (
+        valid_data &
         bullish_cross &
         (df["RSI"] < 70) &
         (df["close"] < df["BB_UPPER"])
     )
 
     sell_condition = (
+        valid_data &
         bearish_cross &
         (df["RSI"] > 30) &
         (df["close"] > df["BB_LOWER"])

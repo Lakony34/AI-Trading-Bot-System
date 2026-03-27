@@ -42,15 +42,24 @@ def main():
             ].tail(15)
         )
 
-        last_row = df.iloc[-1]
-        print("\nLatest candle analysis:")
-        print(f"Close: {last_row['close']}")
-        print(f"SMA20: {last_row['SMA20']}")
-        print(f"SMA50: {last_row['SMA50']}")
-        print(f"RSI: {last_row['RSI']}")
-        print(f"Bollinger context: {last_row['bollinger_context']}")
-        print(f"Trend signal: {last_row['trend_signal']}")
-        print(f"Entry signal: {last_row['entry_signal']}")
+        closed_candle = df.iloc[-2]
+
+        print("\nLast closed candle analysis:")
+        print(f"Datetime: {closed_candle['datetime']}")
+        print(f"Close: {closed_candle['close']}")
+        print(f"SMA20: {closed_candle['SMA20']}")
+        print(f"SMA50: {closed_candle['SMA50']}")
+        print(f"RSI: {closed_candle['RSI']}")
+        print(f"Bollinger context: {closed_candle['bollinger_context']}")
+        print(f"Trend signal: {closed_candle['trend_signal']}")
+        print(f"Entry signal: {closed_candle['entry_signal']}")
+
+        if closed_candle["entry_signal"] == "BUY":
+            print("\nAction: BUY signal confirmed on closed candle.")
+        elif closed_candle["entry_signal"] == "SELL":
+            print("\nAction: SELL signal confirmed on closed candle.")
+        else:
+            print("\nAction: No confirmed trade signal on closed candle.")
 
     except Exception as e:
         print("Error:", e)

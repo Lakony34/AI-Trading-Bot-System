@@ -68,6 +68,7 @@ Signal logic:
 - Bearish SMA crossover → potential SELL
 - RSI helps validate momentum
 - Bollinger Bands help detect overbought / oversold price extension
+- Signals are validated only on closed candles to avoid unstable entries
 
 The system distinguishes between:
 - trend signals
@@ -75,6 +76,7 @@ The system distinguishes between:
 - market context
 
 This provides a stronger and more realistic foundation before adding advanced execution logic or AI-based improvements.
+The bot evaluates signals only on closed candles in order to reduce noise and avoid taking trades based on unfinished market data.
 
 ---
 
