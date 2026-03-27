@@ -32,18 +32,15 @@ This project aims to build a fully automated trading bot powered by AI, focused 
 
 ## Core Features
 - Market data collection (OHLCV)
-- Technical indicators (SMA, RSI, etc.)
-- Signal generation engine
-- Trade execution via MT5
-- Risk management system (SL, TP, position sizing)
+- Technical indicators (SMA, RSI, Bollinger Bands)
+- Trend and entry signal generation
+- Closed-candle signal validation
+- Basic execution control to prevent duplicate trades
+- Market order execution via MT5
+- Support for broker-compatible filling modes
+- Risk management system (planned)
 - Backtesting module (planned)
-- Performance tracking (planned)7- Trend detection using SMA 20 / SMA 50
-- Entry signal generation based on moving average crossovers
-- RSI confirmation
-- Bollinger Bands market context detection
-- Filtered entry signals to reduce false trades
-- Basic execution decision layer to prevent duplicate trades
-- Open position check before any order action
+- Performance tracking (planned)
 
 ---
 
@@ -69,17 +66,14 @@ Signal logic:
 - Bullish SMA crossover → potential BUY
 - Bearish SMA crossover → potential SELL
 - RSI helps validate momentum
-- Bollinger Bands help detect overbought / oversold price extension
-- Signals are validated only on closed candles to avoid unstable entries
+- Bollinger Bands help detect overbought / oversold extensions
 
 The system distinguishes between:
 - trend signals
 - entry signals
 - market context
 
-This provides a stronger and more realistic foundation before adding advanced execution logic or AI-based improvements.
-The bot evaluates signals only on closed candles in order to reduce noise and avoid taking trades based on unfinished market data.
-The bot includes a basic execution control layer that checks for existing open positions before validating a new trade action.
+Signals are validated only on closed candles in order to reduce noise and avoid unstable entries based on unfinished market data.
 
 ---
 
@@ -102,8 +96,29 @@ The bot includes a basic execution control layer that checks for existing open p
 
 ---
 
+## MT5 Execution
+The bot is connected to MetaTrader 5 and can send market orders on a demo account.
+
+Execution layer includes:
+- symbol visibility check
+- open position detection
+- duplicate trade prevention
+- broker-compatible filling mode handling
+- market BUY / SELL order support
+
+A standalone test script is also available to validate MT5 order execution independently from the strategy logic.
+
+---
+
 ## Status
-Project in development – building core trading infrastructure.
+Project in development.
+
+Current progress:
+- MT5 connection working
+- EURUSD market data retrieval working
+- strategy signals implemented
+- closed-candle validation implemented
+- MT5 demo order execution tested successfully
 
 ---
 

@@ -1,12 +1,13 @@
 import MetaTrader5 as mt5
 from data_loader import get_data
 from strategy import add_indicators, generate_trend_signals, generate_entry_signals
-from execution import evaluate_trade_action
+from execution import evaluate_trade_action, place_market_order
 
 
 SYMBOL = "EURUSD"
 TIMEFRAME = mt5.TIMEFRAME_M5
 NB_BARS = 200
+LOT_SIZE = 0.01
 
 
 def connect_mt5():
@@ -26,23 +27,6 @@ def main():
         df = generate_trend_signals(df)
         df = generate_entry_signals(df)
 
-        print(
-            df[
-                [
-                    "datetime",
-                    "close",
-                    "SMA20",
-                    "SMA50",
-                    "RSI",
-                    "BB_UPPER",
-                    "BB_LOWER",
-                    "trend_signal",
-                    "bollinger_context",
-                    "entry_signal",
-                ]
-            ].tail(15)
-        )
-
         closed_candle = df.iloc[-2]
 
         print("\nLast closed candle analysis:")
@@ -56,8 +40,18 @@ def main():
         print(f"Entry signal: {closed_candle['entry_signal']}")
 
         action = evaluate_trade_action(SYMBOL, closed_candle["entry_signal"])
-
         print(f"\nExecution decision: {action}")
+
+        if action == "OPEN_BUY":
+            result = place_market_order(SYMBOL, "BUY", LOT_SIZE)
+            print(f"BUY order sent successfully. Ticket: {result.order}")
+
+        elif action == "OPEN_SELL":
+            result = place_market_order(SYMBOL, "SELL", LOT_SIZE)
+            print(f"SELL order sent successfully. Ticket: {result.order}")
+
+        else:
+             print("No order sent.")
 
     except Exception as e:
         print("Error:", e)
