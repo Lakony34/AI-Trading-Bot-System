@@ -40,7 +40,7 @@ def get_filling_modes():
     ]
 
 
-def place_market_order(symbol: str, order_type: str, volume: float):
+def place_market_order(symbol: str, order_type: str, volume: float, sl: float, tp: float):
     symbol_info = mt5.symbol_info(symbol)
     if symbol_info is None:
         raise ValueError(f"Symbol '{symbol}' not found.")
@@ -71,6 +71,8 @@ def place_market_order(symbol: str, order_type: str, volume: float):
             "volume": volume,
             "type": mt5_order_type,
             "price": price,
+            "sl": float(sl),
+            "tp": float(tp),
             "deviation": DEVIATION,
             "magic": MAGIC_NUMBER,
             "comment": f"python mt5 bot order ({filling_name})",
@@ -88,6 +90,9 @@ def place_market_order(symbol: str, order_type: str, volume: float):
 
         if result is not None and result.retcode == mt5.TRADE_RETCODE_DONE:
             print(f"Order executed successfully with filling mode: {filling_name}")
+            print(f"Entry price: {price}")
+            print(f"Stop Loss: {sl}")
+            print(f"Take Profit: {tp}")
             return result
 
     raise RuntimeError(f"All filling modes failed. Last result: {last_result}")

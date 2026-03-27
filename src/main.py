@@ -1,8 +1,7 @@
 import MetaTrader5 as mt5
 from data_loader import get_data
-from strategy import add_indicators, generate_trend_signals, generate_entry_signals
+from strategy import add_indicators, generate_trend_signals, generate_entry_signals, calculate_trade_levels
 from execution import evaluate_trade_action, place_market_order
-
 
 SYMBOL = "EURUSD"
 TIMEFRAME = mt5.TIMEFRAME_M5
@@ -26,6 +25,7 @@ def main():
         df = add_indicators(df)
         df = generate_trend_signals(df)
         df = generate_entry_signals(df)
+        df = calculate_trade_levels(df)
 
         closed_candle = df.iloc[-2]
 
@@ -38,16 +38,30 @@ def main():
         print(f"Bollinger context: {closed_candle['bollinger_context']}")
         print(f"Trend signal: {closed_candle['trend_signal']}")
         print(f"Entry signal: {closed_candle['entry_signal']}")
+        print(f"Stop Loss: {closed_candle['stop_loss']}")
+        print(f"Take Profit: {closed_candle['take_profit']}")
 
         action = evaluate_trade_action(SYMBOL, closed_candle["entry_signal"])
         print(f"\nExecution decision: {action}")
 
         if action == "OPEN_BUY":
-            result = place_market_order(SYMBOL, "BUY", LOT_SIZE)
+            result = place_market_order(
+                SYMBOL,
+                "BUY",
+                LOT_SIZE,
+                closed_candle["stop_loss"],
+                closed_candle["take_profit"],
+            )
             print(f"BUY order sent successfully. Ticket: {result.order}")
 
         elif action == "OPEN_SELL":
-            result = place_market_order(SYMBOL, "SELL", LOT_SIZE)
+            result = place_market_order(
+                SYMBOL,
+                "SELL",
+                LOT_SIZE,
+                closed_candle["stop_loss"],
+                closed_candle["take_profit"],
+            )
             print(f"SELL order sent successfully. Ticket: {result.order}")
 
         else:

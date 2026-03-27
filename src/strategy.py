@@ -83,3 +83,22 @@ def generate_entry_signals(df: pd.DataFrame) -> pd.DataFrame:
     df.loc[sell_condition, "entry_signal"] = "SELL"
 
     return df
+
+def calculate_trade_levels(df: pd.DataFrame, sl_pips: float = 15, tp_pips: float = 30) -> pd.DataFrame:
+    df = df.copy()
+
+    pip_value = 0.0001  # EURUSD standard pip value
+
+    df["stop_loss"] = None
+    df["take_profit"] = None
+
+    buy_mask = df["entry_signal"] == "BUY"
+    sell_mask = df["entry_signal"] == "SELL"
+
+    df.loc[buy_mask, "stop_loss"] = df.loc[buy_mask, "close"] - (sl_pips * pip_value)
+    df.loc[buy_mask, "take_profit"] = df.loc[buy_mask, "close"] + (tp_pips * pip_value)
+
+    df.loc[sell_mask, "stop_loss"] = df.loc[sell_mask, "close"] + (sl_pips * pip_value)
+    df.loc[sell_mask, "take_profit"] = df.loc[sell_mask, "close"] - (tp_pips * pip_value)
+
+    return df
