@@ -1,12 +1,14 @@
 import MetaTrader5 as mt5
 from data_loader import get_data
-from strategy import add_indicators, generate_trend_signals, generate_entry_signals, calculate_trade_levels
+from strategy_base import add_indicators, generate_trend_signals, generate_entry_signals, calculate_trade_levels
 from execution import evaluate_trade_action, place_market_order
+from risk_manager import calculate_lot_size
 
 SYMBOL = "EURUSD"
 TIMEFRAME = mt5.TIMEFRAME_M5
 NB_BARS = 200
-LOT_SIZE = 0.01
+RISK_PERCENT = 1
+SL_PIPS = 15
 
 
 def connect_mt5():
@@ -41,6 +43,9 @@ def main():
         print(f"Stop Loss: {closed_candle['stop_loss']}")
         print(f"Take Profit: {closed_candle['take_profit']}")
 
+        lot_size = calculate_lot_size(SYMBOL, RISK_PERCENT, SL_PIPS)
+        print(f"Calculated lot size: {lot_size}")
+
         action = evaluate_trade_action(SYMBOL, closed_candle["entry_signal"])
         print(f"\nExecution decision: {action}")
 
@@ -48,7 +53,7 @@ def main():
             result = place_market_order(
                 SYMBOL,
                 "BUY",
-                LOT_SIZE,
+                lot_size,
                 closed_candle["stop_loss"],
                 closed_candle["take_profit"],
             )
@@ -58,7 +63,7 @@ def main():
             result = place_market_order(
                 SYMBOL,
                 "SELL",
-                LOT_SIZE,
+                lot_size,
                 closed_candle["stop_loss"],
                 closed_candle["take_profit"],
             )
